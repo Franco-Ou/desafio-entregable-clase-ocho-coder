@@ -21,7 +21,23 @@ class Contenedor {
         await this.write()
 
         //Devuelvo el ID del nuevo objeto guardado
-        return this.counterID;
+        return object;
+    }
+
+    async updateById(id, object) {
+
+        //Busco el index del objeto según su id
+        const foundIndex = this.productList.findIndex(product => product.id == id);
+        
+        //Reemplazo en el index por el nuevo objeto
+        object.id = id;
+        this.productList[foundIndex] = object;
+
+        //Obtengo el archivo con la información actualizada
+        await this.write()
+
+        //Devuelvo el objeto
+        return object;
     }
 
     async deleteById(id) {
@@ -32,16 +48,10 @@ class Contenedor {
     
     async deleteAll() {
         //Al darle un length de 0 al array, elimino todos los objetos guardados en él
-        //this.productList.length = 0;
             while(this.productList.length > 0) {
                 this.productList.pop();
             }
-
             await this.write();
-
-    /*     setTimeout(async() => { */
-       /*      await this.write(); */
-   /*      }, 3000);  */
     }
 
     async write() {
